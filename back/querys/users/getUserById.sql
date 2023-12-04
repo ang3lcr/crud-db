@@ -1,0 +1,6 @@
+CREATE PROCEDURE IF NOT EXISTS GetUserById(
+    IN in_id INT
+)
+BEGIN
+SELECT * FROM users WHERE id = in_id;
+END
