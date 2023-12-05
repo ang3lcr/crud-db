@@ -1,0 +1,6 @@
+CREATE PROCEDURE IF NOT EXISTS DeleteUser(
+    IN in_id INT
+)
+BEGIN
+DELETE FROM users WHERE id = in_id;
+END

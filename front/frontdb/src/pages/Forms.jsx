@@ -3,7 +3,19 @@ import '../styles/form.css'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { IconX } from '@tabler/icons-react';
+import { useForm } from 'react-hook-form';
+import axios from 'axios'
+
+
 const Forms = ({ showForm, handleVisible }) => {
+  const { register, handleSubmit, setValue } = useForm();
+
+  const onSubmit = (data) => {
+    axios.post("http://localhost/proyectobd/back/services/createUser.php", data)
+        .then(alert("Usuario Creado"))
+
+    console.log(data)
+  };
 
 
   return (
@@ -11,11 +23,13 @@ const Forms = ({ showForm, handleVisible }) => {
       <div className="overlayforms"></div>
       <div className="second-container">
 
-       <Form>
+       <Form onSubmit={handleSubmit(onSubmit)}>
         <IconX  className='icon-x' onClick={handleVisible}/>
        <Form.Group className="mb-3" controlId="formBasicName">
         <Form.Label>Nombre</Form.Label>
-        <Form.Control type="text" placeholder="Ingresa un nombre" />
+        <Form.Control type="text" placeholder="Ingresa un nombre" 
+              {...register('name')}
+        />
         <Form.Text className="text-muted">
           We'll never share your email with anyone else.
         </Form.Text>
@@ -23,7 +37,9 @@ const Forms = ({ showForm, handleVisible }) => {
 
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Correo Electronico</Form.Label>
-        <Form.Control type="email" placeholder="Ingresa un email" />
+        <Form.Control type="email" placeholder="Ingresa un email" 
+              {...register('email')}
+        />
         <Form.Text className="text-muted">
           We'll never share your email with anyone else.
         </Form.Text>

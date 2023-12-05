@@ -54,4 +54,43 @@ function getAllUsers($conn) {
     }
 }
 
+
+function deleteUser ($conn, $id) {
+    $stmt = $conn->prepare("CALL DeleteUser(?)");
+    if ($stmt === false) {
+    die('Error: ' . $conn->error);
+    }
+    $stmt->bind_param("i", $id);
+
+    if ($stmt->execute()) {
+        echo "User delated";
+    } else {
+        echo "Error occurred: " . $stmt->error;
+    }
+    $stmt->close();
+    $conn->close();
+};
+
+
+
+
+function updateUser($conn, $id, $email, $name) {
+    $stmt = $conn->prepare("CALL UpdateUser(?, ?, ?)");
+    if ($stmt === false) {
+        die('Error: ' . $conn->error);
+    }
+    $stmt->bind_param("iss", $id, $name, $email); // Cambio de orden y tipos de datos
+
+    if ($stmt->execute()) {
+        echo "User updated";
+    } else {
+        echo "Error occurred: " . $stmt->error;
+    }
+    $stmt->close();
+    $conn->close();
+}
+
+
+
+
 ?>

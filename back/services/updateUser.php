@@ -1,12 +1,13 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization");
 include_once "../controllers/users.controllers.php";
 include_once "../database.php";
 
+
+// $_POST['id'] = 4;
 
 if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
     header("Access-Control-Allow-Origin: *");
@@ -17,16 +18,18 @@ if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
 
 
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "PUT") {
     $data = file_get_contents("php://input");
     if (isset($data)) {    
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization");
         $decodedData = json_decode($data, true);
         $name = $decodedData['name'];
         $email = $decodedData['email'];
-        $password = $decodedData['password'];
-        $hashedPassword = sha1($password, false);
+        $id = $decodedData['id'];
         
-        $results = createUser($conn, $name, $email, $hashedPassword);
+        $results = updateUser($conn, $id, $email, $name);
         echo json_encode($results);
     } else {
         echo json_encode(["error" => "No se proporcionó la informacion requerida"]);
